@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, timeout, catchError } from 'rxjs/operators';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
@@ -34,6 +34,9 @@ import {
     DialogData,
 } from '../champion-form-dialog/champion-form-dialog.component';
 import { ChampionActionsComponent } from '../champion-actions/champion-actions.component';
+
+// Direct JSON import as fallback when InMemoryWebAPI is slow to initialize
+import championData from '../../../assets/champion_info_2.json';
 
 @Component({
     selector: 'app-champion-list',
@@ -178,20 +181,18 @@ export class ChampionListComponent implements OnInit, OnDestroy {
     }
 
     loadChampions(): void {
-        this.loading = true;
-        const sub = this.championService.getChampions().subscribe({
-            next: (data) => {
-                this.champions = data;
-                this.loading = false;
-            },
-            error: () => {
-                this.loading = false;
-                this.snackBar.open('Erreur lors du chargement des champions', 'Fermer', {
-                    duration: 3000,
-                });
-            },
-        });
-        this.subs.add(sub);
+        // Load directly from JSON (instant, no HttpClient dependency)
+        const championsRaw = (championData as any).data as Record<string, any>;
+        this.champions = Object.values(championsRaw)
+            .filter((c: any) => Array.isArray(c.tags) && c.id !== -1)
+            .map((c: any) => ({
+                id: c.id as number,
+                name: c.name as string,
+                key: c.key as string,
+                title: c.title as string,
+                tags: c.tags as string[],
+            }));
+        this.loading = false;
     }
 
     openAddDialog(): void {

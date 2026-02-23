@@ -1,11 +1,11 @@
-<div class="detail-container" *ngIf="!loadingChampion && champion">
+<div class="detail-container" *ngIf="champion">
     <!-- Back button -->
     <a routerLink="/champions" class="back-link">
         <mat-icon>arrow_back</mat-icon>
         <span>Retour aux champions</span>
     </a>
 
-    <!-- Hero Section -->
+    <!-- Hero Section — always visible immediately -->
     <div class="hero-section">
         <div class="hero-left">
             <div class="champion-avatar">
@@ -37,13 +37,19 @@
     </div>
 
     <!-- Stats Loading -->
-    <div class="stats-loading" *ngIf="loadingStats">
+    <div class="stats-loading" *ngIf="loading && !statsError">
         <mat-spinner diameter="36"></mat-spinner>
         <span>Analyse des 10 000+ parties...</span>
     </div>
 
+    <!-- Stats Error -->
+    <div class="stats-error" *ngIf="statsError">
+        <mat-icon>error_outline</mat-icon>
+        <span>Impossible de charger les statistiques de parties.</span>
+    </div>
+
     <!-- Stats Section -->
-    <div class="stats-section" *ngIf="!loadingStats && stats">
+    <div class="stats-section" *ngIf="!loading && stats">
         <h2 class="section-title">
             <mat-icon>bar_chart</mat-icon>
             Statistiques en Ranked
@@ -110,8 +116,12 @@
     </div>
 </div>
 
-<!-- Loading Champion -->
-<div class="loading-overlay" *ngIf="loadingChampion">
-    <mat-spinner diameter="60"></mat-spinner>
-    <p>Chargement du champion...</p>
+<!-- Champion not found -->
+<div class="loading-overlay" *ngIf="!champion && !loading">
+    <mat-icon style="font-size: 48px; width: 48px; height: 48px; color: #e04040;">error</mat-icon>
+    <p>Champion introuvable</p>
+    <a routerLink="/champions" class="back-link" style="margin-top: 16px;">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Retour aux champions</span>
+    </a>
 </div>

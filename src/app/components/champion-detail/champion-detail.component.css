@@ -153,6 +153,17 @@
     letter-spacing: 0.03em;
 }
 
+/* ─── Stats Error ─────────────────────────── */
+.stats-error {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 24px;
+    color: rgba(224, 64, 64, 0.6);
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+}
+
 /* ─── Stats Section ───────────────────────── */
 .stats-section {
     animation: slideUp .5s ease .1s both;

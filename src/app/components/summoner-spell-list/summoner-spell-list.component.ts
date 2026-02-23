@@ -19,6 +19,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SummonerSpell } from '../../models/summoner-spell.model';
 import { ChampionService } from '../../services/champion.service';
 
+// Direct JSON import as fallback
+import summonerSpellData from '../../../assets/summoner_spell_info.json';
+
+import { timeout, catchError } from 'rxjs/operators';
+
 @Component({
     selector: 'app-summoner-spell-list',
     standalone: true,
@@ -113,19 +118,16 @@ export class SummonerSpellListComponent implements OnInit {
     }
 
     loadSpells(): void {
-        this.loading = true;
-        this.championService.getSummonerSpells().subscribe({
-            next: (data) => {
-                this.spells = data;
-                this.loading = false;
-            },
-            error: () => {
-                this.loading = false;
-                this.snackBar.open('Erreur lors du chargement des sorts d\'invocateur', 'Fermer', {
-                    duration: 3000,
-                });
-            },
-        });
+        // Load directly from JSON (instant, no HttpClient dependency)
+        const spellsRaw = (summonerSpellData as any).data as Record<string, any>;
+        this.spells = Object.values(spellsRaw).map((s: any) => ({
+            id: s.id as number,
+            name: s.name as string,
+            key: s.key as string,
+            description: s.description as string,
+            summonerLevel: s.summonerLevel as number,
+        }));
+        this.loading = false;
     }
 
     private levelCellRenderer(params: any): string {
