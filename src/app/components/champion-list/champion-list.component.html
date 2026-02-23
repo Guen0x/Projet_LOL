@@ -1,0 +1,38 @@
+<div class="list-container">
+    <!-- Toolbar: search + add button -->
+    <div class="list-toolbar">
+        <form [formGroup]="searchForm" class="search-form">
+            <mat-form-field appearance="outline" class="search-field">
+                <mat-label>Rechercher un champion</mat-label>
+                <input matInput formControlName="search" placeholder="Ex: Ahri, Yasuo..." />
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </form>
+
+        <div class="toolbar-right">
+            <span class="champion-count">
+                {{ champions.length }} champion{{ champions.length !== 1 ? 's' : '' }}
+            </span>
+            <button mat-raised-button class="add-btn" (click)="openAddDialog()" matTooltip="Ajouter un champion">
+                <mat-icon>add</mat-icon>
+                Ajouter
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading spinner -->
+    @if (loading) {
+    <div class="loading-overlay">
+        <mat-spinner diameter="60" color="accent"></mat-spinner>
+        <p>Chargement des champions...</p>
+    </div>
+    }
+
+    <!-- AG-Grid -->
+    @if (!loading) {
+    <ag-grid-angular class="champions-grid" [rowData]="champions" [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef" [theme]="theme" [rowHeight]="48" [headerHeight]="44" [animateRows]="true"
+        [pagination]="true" [paginationPageSize]="20" [paginationPageSizeSelector]="[20, 50, 100]"
+        (gridReady)="onGridReady($event)" />
+    }
+</div>

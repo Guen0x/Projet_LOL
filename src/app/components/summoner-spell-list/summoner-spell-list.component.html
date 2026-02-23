@@ -1,0 +1,16 @@
+<div class="list-container">
+    <!-- Loading spinner -->
+    @if (loading) {
+    <div class="loading-overlay">
+        <mat-spinner diameter="60" color="accent"></mat-spinner>
+        <p>Chargement des sorts d'invocateur...</p>
+    </div>
+    }
+
+    <!-- AG-Grid -->
+    @if (!loading) {
+    <ag-grid-angular class="spells-grid" [rowData]="spells" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"
+        [theme]="theme" [rowHeight]="60" [headerHeight]="44" [animateRows]="true" [pagination]="true"
+        [paginationPageSize]="20" [paginationPageSizeSelector]="[10, 20]" (gridReady)="onGridReady($event)" />
+    }
+</div>

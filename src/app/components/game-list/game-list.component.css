@@ -1,0 +1,127 @@
+.list-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 120px);
+    padding: 24px 32px;
+    background: transparent;
+    box-sizing: border-box;
+    animation: fadeIn .4s ease both;
+}
+
+/* ─── Dashboard Stats ─────────────────────── */
+.stats-bar {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 140px;
+    background: rgba(13, 21, 38, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(30, 48, 80, 0.35);
+    border-radius: 14px;
+    padding: 18px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: all .3s ease;
+    animation: slideUp .5s ease both;
+}
+
+.stat-card:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.stat-card:nth-child(2) {
+    animation-delay: .06s;
+}
+
+.stat-card:nth-child(3) {
+    animation-delay: .12s;
+}
+
+.stat-card:nth-child(4) {
+    animation-delay: .18s;
+}
+
+.stat-card:hover {
+    border-color: rgba(200, 155, 60, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.stat-card.blue {
+    border-color: rgba(64, 144, 224, 0.15);
+    background: rgba(13, 21, 50, 0.5);
+}
+
+.stat-card.blue:hover {
+    border-color: rgba(64, 144, 224, 0.35);
+    box-shadow: 0 8px 30px rgba(64, 144, 224, 0.08);
+}
+
+.stat-card.red {
+    border-color: rgba(224, 64, 64, 0.15);
+    background: rgba(35, 13, 20, 0.5);
+}
+
+.stat-card.red:hover {
+    border-color: rgba(224, 64, 64, 0.35);
+    box-shadow: 0 8px 30px rgba(224, 64, 64, 0.08);
+}
+
+.stat-value {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #c89b3c;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 20px rgba(200, 155, 60, 0.2);
+}
+
+.stat-card.blue .stat-value {
+    color: #4090e0;
+    text-shadow: 0 0 20px rgba(64, 144, 224, 0.2);
+}
+
+.stat-card.red .stat-value {
+    color: #e04040;
+    text-shadow: 0 0 20px rgba(224, 64, 64, 0.2);
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: rgba(122, 139, 166, 0.65);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+}
+
+/* ─── Loading ─────────────────────────────── */
+.loading-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 20px;
+    color: rgba(122, 139, 166, 0.6);
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+}
+
+/* ─── Grid ────────────────────────────────── */
+.games-grid {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(30, 48, 80, 0.4);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    animation: slideUp .5s ease .25s both;
+}

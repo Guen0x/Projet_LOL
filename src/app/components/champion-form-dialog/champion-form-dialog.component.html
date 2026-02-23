@@ -1,0 +1,52 @@
+<h2 mat-dialog-title class="dialog-title">
+    <mat-icon>{{ isEditMode ? 'edit' : 'add_circle' }}</mat-icon>
+    {{ isEditMode ? 'Modifier le champion' : 'Nouveau champion' }}
+</h2>
+
+<mat-dialog-content class="dialog-content">
+    <form [formGroup]="form" class="champion-form">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nom</mat-label>
+            <input matInput formControlName="name" placeholder="Ex: Jinx" />
+            <mat-icon matSuffix>person</mat-icon>
+            @if (form.get('name')?.invalid && form.get('name')?.touched) {
+            <mat-error>{{ nameError }}</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Titre</mat-label>
+            <input matInput formControlName="title" placeholder="Ex: the Loose Cannon" />
+            <mat-icon matSuffix>title</mat-icon>
+            @if (form.get('title')?.invalid && form.get('title')?.touched) {
+            <mat-error>{{ titleError }}</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Rôles / Tags</mat-label>
+            <mat-select formControlName="tags" multiple>
+                @for (tag of allTags; track tag) {
+                <mat-option [value]="tag">
+                    <span class="tag-option tag-{{ tag.toLowerCase() }}">{{ tag }}</span>
+                </mat-option>
+                }
+            </mat-select>
+            <mat-icon matSuffix>label</mat-icon>
+            @if (form.get('tags')?.invalid && form.get('tags')?.touched) {
+            <mat-error>Sélectionnez au moins un rôle</mat-error>
+            }
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-button (click)="cancel()" class="cancel-btn">
+        <mat-icon>cancel</mat-icon>
+        Annuler
+    </button>
+    <button mat-raised-button color="primary" (click)="save()" class="save-btn">
+        <mat-icon>save</mat-icon>
+        {{ isEditMode ? 'Enregistrer' : 'Ajouter' }}
+    </button>
+</mat-dialog-actions>

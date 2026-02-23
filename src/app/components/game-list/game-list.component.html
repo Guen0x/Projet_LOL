@@ -1,0 +1,36 @@
+<div class="list-container">
+    <!-- Dashboard Stats -->
+    <div class="stats-bar">
+        <div class="stat-card">
+            <span class="stat-value">{{ totalGames | number }}</span>
+            <span class="stat-label">Parties</span>
+        </div>
+        <div class="stat-card blue">
+            <span class="stat-value">{{ team1WinRate }}%</span>
+            <span class="stat-label">Victoire Bleu</span>
+        </div>
+        <div class="stat-card red">
+            <span class="stat-value">{{ team2WinRate }}%</span>
+            <span class="stat-label">Victoire Rouge</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-value">{{ avgDuration }}</span>
+            <span class="stat-label">Durée moyenne</span>
+        </div>
+    </div>
+
+    <!-- Loading spinner -->
+    @if (loading) {
+    <div class="loading-overlay">
+        <mat-spinner diameter="60" color="accent"></mat-spinner>
+        <p>Chargement de 10 000+ parties...</p>
+    </div>
+    }
+
+    <!-- AG-Grid -->
+    @if (!loading) {
+    <ag-grid-angular class="games-grid" [rowData]="games" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"
+        [theme]="theme" [rowHeight]="42" [headerHeight]="44" [animateRows]="true" [pagination]="true"
+        [paginationPageSize]="50" [paginationPageSizeSelector]="[25, 50, 100]" (gridReady)="onGridReady($event)" />
+    }
+</div>

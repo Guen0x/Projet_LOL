@@ -1,0 +1,96 @@
+.dialog-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Cinzel', 'Georgia', serif;
+    color: #c89b3c;
+    font-size: 1.15rem;
+    border-bottom: 1px solid rgba(200, 155, 60, 0.15);
+    padding-bottom: 14px;
+    margin-bottom: 8px;
+    letter-spacing: 0.06em;
+    text-shadow: 0 0 16px rgba(200, 155, 60, 0.2);
+}
+
+.dialog-title mat-icon {
+    color: #c89b3c;
+    filter: drop-shadow(0 0 6px rgba(200, 155, 60, 0.3));
+}
+
+.dialog-content {
+    min-width: 420px;
+    padding-top: 16px !important;
+}
+
+.champion-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.dialog-actions {
+    padding: 16px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    gap: 10px;
+}
+
+.cancel-btn {
+    color: #7a8ba6;
+    border-radius: 10px !important;
+    transition: all .2s ease !important;
+}
+
+.cancel-btn:hover {
+    background: rgba(122, 139, 166, 0.08) !important;
+}
+
+.save-btn {
+    background: linear-gradient(135deg, #c89b3c, #a07830) !important;
+    color: #0a0e1a !important;
+    font-weight: 600;
+    border-radius: 10px !important;
+    transition: all .25s ease !important;
+    box-shadow: 0 2px 12px rgba(200, 155, 60, 0.2);
+}
+
+.save-btn:hover {
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 4px 20px rgba(200, 155, 60, 0.35) !important;
+}
+
+.save-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.tag-option {
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
+.tag-assassin {
+    color: #e04040;
+}
+
+.tag-fighter {
+    color: #e07040;
+}
+
+.tag-mage {
+    color: #7060e0;
+}
+
+.tag-marksman {
+    color: #40a0e0;
+}
+
+.tag-support {
+    color: #40c070;
+}
+
+.tag-tank {
+    color: #6090c0;
+}
