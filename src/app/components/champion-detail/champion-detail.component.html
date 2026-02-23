@@ -113,6 +113,48 @@
                 </div>
             </div>
         </div>
+
+        <!-- Matchups -->
+        <div class="matchups-section" *ngIf="bestMatchups.length > 0 || worstMatchups.length > 0">
+            <h2 class="section-title">
+                <mat-icon>compare_arrows</mat-icon>
+                Matchups
+            </h2>
+            <div class="matchups-grid">
+                <!-- Best Against -->
+                <div class="matchup-column">
+                    <h3 class="matchup-header best">
+                        <mat-icon>thumb_up</mat-icon> Fort contre
+                    </h3>
+                    <div class="matchup-item" *ngFor="let m of bestMatchups">
+                        <div class="matchup-info">
+                            <span class="matchup-name">{{ m.name }}</span>
+                            <span class="matchup-games">{{ m.games }} games</span>
+                        </div>
+                        <div class="matchup-bar-container">
+                            <div class="matchup-bar best-bar" [style.width.%]="m.winRate"></div>
+                        </div>
+                        <span class="matchup-wr best-wr">{{ m.winRate }}%</span>
+                    </div>
+                </div>
+                <!-- Worst Against -->
+                <div class="matchup-column">
+                    <h3 class="matchup-header worst">
+                        <mat-icon>thumb_down</mat-icon> Faible contre
+                    </h3>
+                    <div class="matchup-item" *ngFor="let m of worstMatchups">
+                        <div class="matchup-info">
+                            <span class="matchup-name">{{ m.name }}</span>
+                            <span class="matchup-games">{{ m.games }} games</span>
+                        </div>
+                        <div class="matchup-bar-container">
+                            <div class="matchup-bar worst-bar" [style.width.%]="m.winRate"></div>
+                        </div>
+                        <span class="matchup-wr worst-wr">{{ m.winRate }}%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

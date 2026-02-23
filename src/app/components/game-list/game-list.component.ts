@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -19,10 +19,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Game } from '../../models/game.model';
 import { GameService } from '../../services/game.service';
 
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartConfiguration } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
+
+import championData from '../../../assets/champion_info_2.json';
+
 @Component({
     selector: 'app-game-list',
     standalone: true,
-    imports: [CommonModule, AgGridAngular, MatProgressSpinnerModule],
+    imports: [CommonModule, AgGridAngular, MatProgressSpinnerModule, BaseChartDirective],
     templateUrl: './game-list.component.html',
     styleUrl: './game-list.component.css',
 })
@@ -36,6 +43,27 @@ export class GameListComponent implements OnInit {
     team1WinRate = 0;
     team2WinRate = 0;
     avgDuration = '';
+
+    // Role win rate chart
+    @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+    roleChartData: ChartConfiguration<'bar'>['data'] = { labels: [], datasets: [] };
+    roleChartOptions: ChartConfiguration<'bar'>['options'] = {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    label: (ctx) => `${(ctx.parsed.x ?? 0).toFixed(1)}% win rate`,
+                },
+            },
+        },
+        scales: {
+            x: { min: 40, max: 60, ticks: { callback: (v) => v + '%', color: '#7a8ba6' }, grid: { color: 'rgba(30,48,80,0.3)' } },
+            y: { ticks: { color: '#c4b998', font: { weight: 'bold' } }, grid: { display: false } },
+        },
+    };
 
     theme = themeQuartz.withParams({
         backgroundColor: '#0d1526',
@@ -200,6 +228,60 @@ export class GameListComponent implements OnInit {
         const m = Math.floor(avgSec / 60);
         const s = Math.round(avgSec % 60);
         this.avgDuration = `${m}:${s.toString().padStart(2, '0')}`;
+        this.computeRoleWinRates(games);
+    }
+
+    private computeRoleWinRates(games: Game[]): void {
+        // Build champion → roles map
+        const champRoles = new Map<string, string[]>();
+        const champRaw = (championData as any).data as Record<string, any>;
+        for (const c of Object.values(champRaw)) {
+            champRoles.set(c.name as string, c.tags as string[]);
+        }
+
+        const roleStats = new Map<string, { wins: number; total: number }>();
+        const roles = ['Fighter', 'Mage', 'Assassin', 'Marksman', 'Support', 'Tank'];
+        roles.forEach((r) => roleStats.set(r, { wins: 0, total: 0 }));
+
+        for (const game of games) {
+            const process = (champs: string[], won: boolean) => {
+                for (const name of champs) {
+                    const tags = champRoles.get(name);
+                    if (!tags) continue;
+                    for (const tag of tags) {
+                        const s = roleStats.get(tag);
+                        if (s) {
+                            s.total++;
+                            if (won) s.wins++;
+                        }
+                    }
+                }
+            };
+            process(game.team1.champions, game.winner === 1);
+            process(game.team2.champions, game.winner === 2);
+        }
+
+        const colorMap: Record<string, string> = {
+            Assassin: '#e04040', Fighter: '#e07040', Mage: '#9060e0',
+            Marksman: '#40a0e0', Support: '#40c070', Tank: '#6090c0',
+        };
+
+        const sorted = roles
+            .map((r) => ({ role: r, ...roleStats.get(r)! }))
+            .filter((r) => r.total > 0)
+            .sort((a, b) => (b.wins / b.total) - (a.wins / a.total));
+
+        this.roleChartData = {
+            labels: sorted.map((r) => r.role),
+            datasets: [{
+                data: sorted.map((r) => Math.round((r.wins / r.total) * 1000) / 10),
+                backgroundColor: sorted.map((r) => colorMap[r.role] + 'aa'),
+                borderColor: sorted.map((r) => colorMap[r.role]),
+                borderWidth: 1,
+                borderRadius: 4,
+                barThickness: 22,
+            }],
+        };
     }
 
     private renderTeamChamps(champions: string[], color: string): string {

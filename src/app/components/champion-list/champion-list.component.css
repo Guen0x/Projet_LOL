@@ -87,3 +87,17 @@
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     animation: slideUp .5s ease .1s both;
 }
+
+/* ─── Light Theme Overrides ───────────────── */
+:host-context(.light-theme) .champions-grid {
+    border-color: rgba(180, 190, 210, 0.5);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+:host-context(.light-theme) .champion-count {
+    color: #555e70;
+}
+
+:host-context(.light-theme) .loading-overlay {
+    color: #555e70;
+}

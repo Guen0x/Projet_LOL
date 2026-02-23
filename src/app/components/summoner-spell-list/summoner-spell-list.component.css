@@ -32,3 +32,13 @@
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     animation: slideUp .5s ease .1s both;
 }
+
+/* ─── Light Theme ─────────────────────────── */
+:host-context(.light-theme) .spells-grid {
+    border-color: rgba(180, 190, 210, 0.5);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+:host-context(.light-theme) .loading-overlay {
+    color: #555e70;
+}

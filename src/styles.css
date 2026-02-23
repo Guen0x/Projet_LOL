@@ -69,6 +69,35 @@
     animation: slideUp .5s ease .20s both;
 }
 
+/* ─── Theme Variables ─────────────────────── */
+:root {
+    --bg-body: #080c16;
+    --bg-surface: #0d1526;
+    --bg-elevated: rgba(13, 21, 38, 0.55);
+    --bg-toolbar: rgba(10, 16, 30, 0.7);
+    --bg-nav: rgba(10, 16, 30, 0.5);
+    --text-primary: #c4b998;
+    --text-accent: #c89b3c;
+    --text-muted: rgba(122, 139, 166, 0.7);
+    --border-subtle: rgba(30, 48, 80, 0.4);
+    --border-gold: rgba(200, 155, 60, 0.15);
+    --row-hover: rgba(200, 155, 60, 0.06);
+}
+
+.light-theme {
+    --bg-body: #f0f2f5;
+    --bg-surface: #ffffff;
+    --bg-elevated: rgba(255, 255, 255, 0.85);
+    --bg-toolbar: rgba(255, 255, 255, 0.9);
+    --bg-nav: rgba(245, 247, 250, 0.9);
+    --text-primary: #1a1a2e;
+    --text-accent: #9b7520;
+    --text-muted: rgba(80, 90, 110, 0.7);
+    --border-subtle: rgba(180, 190, 210, 0.5);
+    --border-gold: rgba(155, 117, 32, 0.2);
+    --row-hover: rgba(155, 117, 32, 0.06);
+}
+
 /* ─── Reset ───────────────────────────────── */
 * {
     box-sizing: border-box;
@@ -79,10 +108,30 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background: #080c16;
-    color: #c4b998;
+    background: var(--bg-body);
+    color: var(--text-primary);
     font-family: 'Inter', 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
+    transition: background .3s ease, color .3s ease;
+}
+
+/* ─── Glassmorphism Utility ───────────────── */
+.glass {
+    background: var(--bg-elevated);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-gold);
+}
+
+/* ─── Theme Toggle ────────────────────────── */
+.theme-toggle {
+    margin-left: 12px;
+    color: var(--text-accent) !important;
+    transition: transform .2s ease;
+}
+
+.theme-toggle:hover {
+    transform: rotate(20deg) scale(1.1);
 }
 
 /* ─── Glassmorphism Utility ───────────────── */
@@ -183,6 +232,72 @@ body {
     stroke: #c89b3c !important;
 }
 
+/* ─── Light Theme Material Overrides ─────── */
+.light-theme .mat-mdc-form-field .mdc-notched-outline__leading,
+.light-theme .mat-mdc-form-field .mdc-notched-outline__notch,
+.light-theme .mat-mdc-form-field .mdc-notched-outline__trailing {
+    border-color: rgba(140, 150, 170, 0.4) !important;
+}
+
+.light-theme .mat-mdc-form-field:hover .mdc-notched-outline__leading,
+.light-theme .mat-mdc-form-field:hover .mdc-notched-outline__notch,
+.light-theme .mat-mdc-form-field:hover .mdc-notched-outline__trailing {
+    border-color: rgba(155, 117, 32, 0.5) !important;
+}
+
+.light-theme .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.light-theme .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.light-theme .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+    border-color: #9b7520 !important;
+}
+
+.light-theme .mat-mdc-input-element {
+    color: #1a1a2e !important;
+    caret-color: #9b7520 !important;
+}
+
+.light-theme .mat-mdc-floating-label {
+    color: #555e70 !important;
+}
+
+.light-theme .mdc-floating-label--float-above {
+    color: #9b7520 !important;
+}
+
+.light-theme .lol-dialog .mat-mdc-dialog-container {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(155, 117, 32, 0.15);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.15),
+        0 0 40px rgba(155, 117, 32, 0.05) !important;
+}
+
+.light-theme .mat-mdc-select-panel {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid rgba(180, 190, 210, 0.5) !important;
+}
+
+.light-theme .mat-mdc-option:hover {
+    background: rgba(155, 117, 32, 0.08) !important;
+}
+
+.light-theme .mat-mdc-option.mdc-list-item--selected {
+    background: rgba(155, 117, 32, 0.12) !important;
+}
+
+.light-theme .mat-mdc-progress-spinner circle {
+    stroke: #9b7520 !important;
+}
+
+.light-theme .success-snack .mdc-snackbar__surface {
+    background: rgba(230, 255, 240, 0.95) !important;
+    color: #1a7a3a !important;
+}
+
+.light-theme .delete-snack .mdc-snackbar__surface {
+    background: rgba(255, 235, 235, 0.95) !important;
+    color: #b02020 !important;
+}
+
 /* ─── Scrollbar ───────────────────────────── */
 ::-webkit-scrollbar {
     width: 6px;
@@ -201,4 +316,12 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(200, 155, 60, 0.35);
+}
+
+.light-theme ::-webkit-scrollbar-thumb {
+    background: rgba(140, 150, 170, 0.4);
+}
+
+.light-theme ::-webkit-scrollbar-thumb:hover {
+    background: rgba(155, 117, 32, 0.4);
 }

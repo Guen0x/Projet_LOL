@@ -26,6 +26,13 @@ interface ChampionStats {
     team2Picks: number;
 }
 
+interface Matchup {
+    name: string;
+    games: number;
+    wins: number;
+    winRate: number;
+}
+
 @Component({
     selector: 'app-champion-detail',
     standalone: true,
@@ -36,6 +43,8 @@ interface ChampionStats {
 export class ChampionDetailComponent implements OnInit {
     champion: Champion | null = null;
     stats: ChampionStats | null = null;
+    bestMatchups: Matchup[] = [];
+    worstMatchups: Matchup[] = [];
     loading = true;
     statsError = false;
     roleColors: Record<string, string> = {
@@ -99,6 +108,7 @@ export class ChampionDetailComponent implements OnInit {
 
                 if (this.champion) {
                     this.stats = this.computeStats(this.champion.name, games);
+                    this.computeMatchups(this.champion.name, games);
                 }
                 this.loading = false;
                 this.cdr.detectChanges(); // Force Angular to detect changes (fetch runs outside zone)
@@ -199,5 +209,37 @@ export class ChampionDetailComponent implements OnInit {
             team1Picks,
             team2Picks,
         };
+    }
+
+    private computeMatchups(name: string, games: Game[]): void {
+        const matchupMap = new Map<string, { wins: number; total: number }>();
+
+        for (const game of games) {
+            const inTeam1 = game.team1.champions.includes(name);
+            const inTeam2 = game.team2.champions.includes(name);
+            if (!inTeam1 && !inTeam2) continue;
+
+            const won = (inTeam1 && game.winner === 1) || (inTeam2 && game.winner === 2);
+            const enemies = inTeam1 ? game.team2.champions : game.team1.champions;
+
+            for (const enemy of enemies) {
+                if (enemy === name || enemy.startsWith('#')) continue;
+                const m = matchupMap.get(enemy) ?? { wins: 0, total: 0 };
+                m.total++;
+                if (won) m.wins++;
+                matchupMap.set(enemy, m);
+            }
+        }
+
+        const all: Matchup[] = [];
+        matchupMap.forEach((v, k) => {
+            if (v.total >= 10) {
+                all.push({ name: k, games: v.total, wins: v.wins, winRate: Math.round((v.wins / v.total) * 1000) / 10 });
+            }
+        });
+
+        all.sort((a, b) => b.winRate - a.winRate);
+        this.bestMatchups = all.slice(0, 5);
+        this.worstMatchups = all.slice(-5).reverse();
     }
 }

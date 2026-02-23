@@ -114,6 +114,31 @@
     letter-spacing: 0.03em;
 }
 
+/* ─── Chart Section ───────────────────────── */
+.chart-section {
+    background: rgba(13, 21, 38, 0.5);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(30, 48, 80, 0.35);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    animation: slideUp .5s ease .2s both;
+}
+
+.chart-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--text-accent, #c89b3c);
+    text-transform: uppercase;
+    margin: 0 0 12px 0;
+}
+
+.chart-container {
+    height: 180px;
+    position: relative;
+}
+
 /* ─── Grid ────────────────────────────────── */
 .games-grid {
     flex: 1;
@@ -124,4 +149,50 @@
     border: 1px solid rgba(30, 48, 80, 0.4);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     animation: slideUp .5s ease .25s both;
+}
+
+/* ─── Light Theme Overrides ───────────────── */
+:host-context(.light-theme) .stat-card {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(180, 190, 210, 0.4);
+}
+
+:host-context(.light-theme) .stat-value {
+    color: #7a5a10;
+}
+
+:host-context(.light-theme) .stat-card.blue .stat-value {
+    color: #2860a0;
+}
+
+:host-context(.light-theme) .stat-card.red .stat-value {
+    color: #b02020;
+}
+
+:host-context(.light-theme) .stat-card.blue {
+    background: rgba(230, 240, 255, 0.6);
+    border-color: rgba(64, 144, 224, 0.2);
+}
+
+:host-context(.light-theme) .stat-card.red {
+    background: rgba(255, 235, 235, 0.6);
+    border-color: rgba(224, 64, 64, 0.2);
+}
+
+:host-context(.light-theme) .stat-label {
+    color: #555e70;
+}
+
+:host-context(.light-theme) .chart-section {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(180, 190, 210, 0.4);
+}
+
+:host-context(.light-theme) .games-grid {
+    border-color: rgba(180, 190, 210, 0.5);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+:host-context(.light-theme) .loading-overlay {
+    color: #555e70;
 }

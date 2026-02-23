@@ -19,7 +19,17 @@
         </div>
     </div>
 
-    <!-- Loading spinner -->
+    <!-- Win Rate by Role Chart -->
+    @if (!loading && roleChartData.labels!.length > 0) {
+    <div class="chart-section">
+        <h3 class="chart-title">Win Rate par Rôle</h3>
+        <div class="chart-container">
+            <canvas baseChart [datasets]="roleChartData.datasets" [labels]="roleChartData.labels"
+                [options]="roleChartOptions" type="bar">
+            </canvas>
+        </div>
+    </div>
+    } <!-- Loading spinner -->
     @if (loading) {
     <div class="loading-overlay">
         <mat-spinner diameter="60" color="accent"></mat-spinner>

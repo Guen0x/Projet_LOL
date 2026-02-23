@@ -5,6 +5,10 @@
   </div>
   <span class="spacer"></span>
   <span class="toolbar-sub">League of Legends · Ranked Data</span>
+  <button mat-icon-button (click)="theme.toggle()" [matTooltip]="theme.isDark() ? 'Mode clair' : 'Mode sombre'"
+    class="theme-toggle">
+    <mat-icon>{{ theme.isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
 </mat-toolbar>
 
 <nav mat-tab-nav-bar class="app-nav" [tabPanel]="tabPanel" backgroundColor="primary">
